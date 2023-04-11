@@ -1,4 +1,4 @@
-# employee-api
+# Api for Employees management
 This api is created using nodejs, express, mysql . It contains basic crud operations with pagination.
 
 # How to use
