@@ -3,5 +3,6 @@ This api is created using nodejs, express, mysql . It contains basic crud operat
 
 # How to use
 Run this command after cloning it in the terminal
+### npm init
 ### npm install
 ### nodemon index.js
