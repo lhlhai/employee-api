@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 // set up for MySql connection
 const connection = mysql.createConnection({
@@ -19,4 +19,18 @@ connection.connect((err)=>{
 
 })
 
-module.exports=connection
+// connection.query(`
+//   CREATE TABLE employees (
+//     id INT(11) NOT NULL AUTO_INCREMENT,
+//     firstName VARCHAR(255) NOT NULL,
+//     email VARCHAR(255) NOT NULL,
+//     phone VARCHAR(255) NOT NULL,
+//     address VARCHAR(255) NOT NULL,
+//     PRIMARY KEY (id)
+//   )
+// `, function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('Table created');
+// });
+
+module.exports = connection

@@ -2,12 +2,21 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const connection = require('./connection')
 
+
 const app = express();
+app.use(express.static('public'));
+
 const port = process.env.PORT || 3000;
 
 
 //configure body-parser middleware to handle json data
 app.use(bodyParser.json());
+
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+  });
+  
 
 
 // api endpoints for crud operations
