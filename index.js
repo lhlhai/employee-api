@@ -177,22 +177,33 @@ app.put("/employees/:id", (req, res) => {
 //delete a employee
 app.delete("/employees/:id", (req, res) => {
   const id = req.params.id;
-  const query = "DELETE FROM employees WHERE id = ?";
+  const deleteContactsQuery = "DELETE FROM employee_contacts WHERE employee_id = ?";
+  const deleteEmployeeQuery = "DELETE FROM employees WHERE id = ?";
 
-  connection.query(query, [id], (err, result) => {
+  connection.query(deleteContactsQuery, [id], (err, result) => {
     if (err) {
-      console.error("error deleting employee: " + err.stack);
-      res.status(500).json({ message: "error deleting employee" });
-      return;
-    }
-    if (result.affectedRows === 0) {
-      res.status(404).json({ msesage: "employee not found" });
+      console.error("error deleting employee contacts: " + err.stack);
+      res.status(500).json({ message: "error deleting employee contacts" });
       return;
     }
 
-    res.status(200).json({ message: "employee deleted successfuly" });
+    connection.query(deleteEmployeeQuery, [id], (err, result) => {
+      if (err) {
+        console.error("error deleting employee: " + err.stack);
+        res.status(500).json({ message: "error deleting employee" });
+        return;
+      }
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: "employee not found" });
+        return;
+      }
+
+      res.status(200).json({ message: "employee deleted successfully" });
+    });
   });
 });
+
+
 
 //start server
 app.listen(port, () => {
