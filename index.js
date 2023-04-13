@@ -8,11 +8,7 @@ app.use(express.static("public"));
 const port = process.env.PORT || 3000;
 
 //configure body-parser middleware to handle json data
-app.use(bodyParser.urlencoded({extended:true}));
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+app.use(bodyParser.json());
 
 // api endpoints for crud operations
 
@@ -57,8 +53,8 @@ app.post("/employees", (req, res) => {
 
       // insert contact data into the 'employee_contacts' table
       connection.query(
-        "INSERT INTO employee_contacts values (?,?,?,?)",
-        [null,contactData.employee_id, contactData.name, contactData.contact, contactData.relationship],
+        "INSERT INTO employee_contacts values (null,?,?,?,?)",
+        [contactData.employee_id, contactData.name, contactData.contact, contactData.relationship],
         (error, results, fields) => {
           if (error) throw error;
         }
@@ -117,7 +113,7 @@ app.get("/employees", (req, res) => {
 //get a employee
 app.get("/employees/:id", (req, res) => {
   const id = req.params.id;
-  const query = "SELECT * FROM employees LEFT JOIN employee_contacts ON employees.id = employee_contacts.employee_id WHERE employees.id = ?";
+  const query = "SELECT e.id, e.name, e.job_title, e.phone, e.email, e.address, e.city, e.state, ec.name as contact_name, ec.contact, ec.relationship FROM employees e left JOIN employee_contacts ec ON e.id = ec.employee_id WHERE e.id = ?";
 
   connection.query(query, [id], (err, result) => {
     if (err) {
