@@ -4,6 +4,8 @@ const connection = require("./connection");
 
 const app = express();
 app.use(express.static("public"));
+app.use(body.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 const port = process.env.PORT || 3000;
 
